@@ -1,32 +1,313 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+//
+//  main.m
+//  Lesson_8_9
+//
+//  Created by lanou3g on 15/8/9.
+//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//
 
-# Precompiled Headers
-*.gch
-*.pch
+#import <Foundation/Foundation.h>
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+//    预编译:在编译之前进行的操作
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+#define 宏名 内容
+//宏名代表内容,变成在编译的时候将宏替换为相应的内容
+#define N 18
+#define π 3.1415926
+#define Url  www.baidu.com
+#define Max(a,b) (a)>(b)?(a):(b)
+/*
+typedef struct teacher{
+    
+    char name[20];
+    int age ;
+}teacher;
+typedef struct Cpoint{
+    float x;
+    float y;
+    
+}Cpoint;
+void juLi(Cpoint *p,Cpoint *p1);
+void juLi(Cpoint *p,Cpoint *p1){
+    float lenth = sqrt(fabs(p->x - p1->x) * fabs(p->x - p1->x) + fabs(p->y - p1->y) * fabs(p->y - p1->y));
+    printf("%f\n",lenth);
+}
+typedef struct stu{
+    char name[20];
+    int age ;
+    char gender[5];
+    
+}stu;*/
+typedef struct student{
+    char name[20];
+    int age;
+    int num;
+    char gender;
+    float score;
+}stu;
+typedef struct person{
+    char name[20];
+    int age;
+    char gender;
+    float weight;
+}per;
+void maxWeight(per *p1,per *p2){
+    per * max = p1->weight > p2->weight ?p1:p2;
+    printf("%s %d %c  %.2f",max->name,max->age,max->gender,max->weight);
+}
+void shuChu(stu *s,int n){
+    for (int i = 0; i < n; i ++) {
+       // printf("%s  %d  %c  %.2f\n",s[i].name,s[i].age,s[i].gender,s[i].score);
+      //  printf("%s  %d  %c  %.2f\n",(*(s+i)).name,(*(s+i)).age,(*(s+i)).gender,(*(s+i)).score);
+        printf("%s  %d  %c  %.2f\n",(s+i)->name,(s+i)->age,(s+i)->gender,(s+i)->score);
+    }
+    
+}
+void change(stu *s,int n);
+void change(stu *s,int n){
+    
+    for (int i = 0; i < n ; i ++) {
+        if ((s+i)->gender == 'm' ) {
+            (s+i)->score  +=10;
+        }
+//        printf("%s  %d  %c  %.2f\n",(s+i)->name,(s+i)->age,(s+i)->gender,(s+i)->score);
+        printf("%s  %d   %c   %.2f\n",(*(s +i)).name,s[i].age,(s+i)->gender,(s+i)->score);
+    }
+  
+    
+}
+void  paixuage(stu *s,int n ){
+    for (int i = 0; i < n -1; i ++) {
+        for (int j = 0; j < n - i -1; j ++) {
+            if ((s+i)->age > (s+i+1)->age) {
+//                int t = (s+i)->age;
+//                (s + i)->age = (s + i + 1)->age;
+//                (s +i +1)->age = t;
+                (s+i)->age = (s+i)->age ^ (s +i +1)->age;
+                (s+i+1)->age = (s+i)->age ^ (s +i+1)->age;
+                (s+i)->age = (s+i)->age ^ (s +i+1)->age;
+            }
+        }
+    }
+    shuChu(s, n);
+}
+void paixuname(stu *s,int n){
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < n - i -1; j ++) {
+            if (strcmp((s + j)->name,(s + j + 1)->name)) {
+                char t[20];
+                strcpy(t, (s+j)->name);
+                strcpy((s+j)->name, (s+j+1)->name);
+                strcpy((s+j+1)->name, t);
+            }
+        }
+    }
+    for (int i = 0; i < n; i ++) {
+        printf("%s    ",(s+i)->name);
+    }
+}
+void paixuFenshu(stu *s,int n){
+    for (int i = 0; i < n-1; i++) {
 
-# Debug files
-*.dSYM/
+    for (int j = 0; j < n - i -1; j ++) {
+        if (strcmp((s + j)->name,(s + j + 1)->name)) {
+                if ((s+i)->score > (s+i+1)->score) {
+                    float t;
+                    t= (s+j)->score ;
+                    (s + j)->score = (s + j +1)->score;
+                    (s +j + 1)->score = t;
+                
+                }
+            }
+        }
+        shuChu(s, n);
+}
+}
+void paixuXuehao(stu *s,int n){
+    for (int i = 0; i < n-1; i++) {
+     for (int j = 0; j < n - i -1; j ++) {
+        if ((s+i)->num > (s+i+1)->num) {
+        (s+i)->num = (s+i)->num ^ (s +i +1)->num;
+        (s+i+1)->num = (s+i)->num ^ (s +i+1)->num;
+        (s+i)->num = (s+i)->num ^ (s +i+1)->num;
+    }
+  }
+}
+
+shuChu(s, n);
+}
+void jiaohuan1(stu *s,stu *s1){  //只能交换值,实际地址不变,原来结构体的东西还是原来的
+   stu *ss = s;
+    s = s1;
+    s1 = ss;
+    printf("%s %d %d %c\n%s %d %d %c\n",s->name,s->age,s->num,s->gender,s1->name,s1->age,s1->num,s1->gender);
+}
+
+void jiaohuan(stu *s,stu *s1){
+    char name[20];
+    int x;
+    char c;
+   
+    strcpy(name, s->name);
+    strcpy(s->name, s1->name);
+    strcpy(s1->name, name);
+    x = s->age;
+    s->age = s1->age;
+    s1->age = x;
+
+    x = s->num;
+    s->num = s1->num;
+    s1->num = x;
+
+    x = s->score;
+    s->score = s1->score;
+    s1->score = x;
+    
+    c = s->gender;
+    s->gender = s1->gender;
+    s1->gender = c;
+    
+    //printf("%s %d %d %c %f\n",s->name,s->age,s->num,s->gender,s->score);
+    printf("%s %d %d %c\n%s %d %d %c\n",s->name,s->age,s->num,s->gender,s1->name,s1->age,s1->num,s1->gender);
+
+}
+int main(int argc, const char * argv[]) {
+    
+    stu s1 = {"name",18,88,'f',89};
+    stu s2 = {"ban",19,77,'m',90};
+    //stu *s = &s1;
+    //stu *ss = &s2;
+    jiaohuan1(&s1, &s2);
+    printf("%s %d %d %c\n%s %d %d %c\n",s1.name,s1.age,s1.num,s1.gender,s2.name,s2.age,s2.num,s2.gender);
+    
+    
+    
+    
+
+    
+    
+    
+//    teacher t1 ={"zhangsan",18};
+//    strcpy(t1.name, "LuoFeng");
+//    printf("%s\n",t1.name);
+//    t1.age = 88;
+//    结构体指针 指向结构体的存储单元
+//    对结构体变量取地址
+//    p指向结构体的起始地址,就是首个成员变量的地址
+//    teacher *p = &t1;
+//    printf("name =%p\n p = %p\n age = %p\n",t1.name,p,&t1.age);
+//    通过结构体指针访问成员变量
+//    1).指针取值运算符
+//    (*p).name  (*p):p 指向结构体的存储单元
+//    注意:()不能省略,因为 .的优先级高于 *
+//    2).通过 -> 访问
+
+//    printf("%s,%d\n",p->name,p->age);
+//     printf("%s,%d\n",(*p).name,(*p).age);
+//    teacher t = {"aHui",68};
+//    p = &t;
+//    strcpy(p->name, "boob");
+//    p->age = 66;
+//    printf("%s %d\n",(*p).name,p->age);
+//    Cpoint m = {0,3};
+//    Cpoint n = {4,0};
+//    Cpoint *p = &m;
+//    Cpoint *p1 = &n;
+   //float lenth =  sqrt(fabs(p->x - p1->x) * fabs(p->x - p1->x) + fabs(p->y - p1->y) * fabs(p->y - p1->y));
+    //printf("%f",lenth);
+//    juLi(p, p1);
+#pragma mark 结构体指针操作
+//    stu s = {"wah ah",18,"man"};
+//    stu *p = &s;
+//    int lenth = (int)strlen(p->name);
+//    for (int i = 0; i < lenth; i ++)
+//    {
+//        if (i == 0 && *((p->name)+i)>='a'&&*((p->name)+i)<='z') {
+//            *(p->name) -=  32;
+//        }
+//        
+//        
+////        if (*((p->name)+i) == ' ') {
+////            *((p->name)+i) = '_';
+////        }
+//        if (*(p->name+i)==' ') {
+//            *(p->name+i) = '_';
+//        }
+//    }
+//    
+//    printf("%s\n",p->name);
+//    
+//
+//    stu s ={"wal a     la",18,"nam"};
+//    stu *p = &s;
+//    int len  =(int)strlen(p->name);
+//    for (int i = 0; i < len;  i ++) {
+//        if (*(p->name + i)==' ') {
+//            *(p->name + i) = '_';
+//        }
+//    }
+//    printf("%s",p->name);
+//    结构体指针,
+    
+//    stu s ={"wahaha",10,'f',59};
+//    printf("%c\n",s.gender);
+//    stu *p = &s;
+//
+//    (*p).age = 18; //结构体指针取成员变量
+//    p->gender = '?';
+//    printf("%c %d\n",p->gender,p->age);
+//    printf("%s    %s\n",p->name,(*p).name);
+//    结构体数组
+//    stu s[] = {{"wahaha",10,'f',59},{"waha",100,'m',61},{"haha",110,'f',88}};
+//    
+//    stu *p= s;
+//    printf("%s   %s   %s\n",s[0].name,p[0].name,(p+1)->name);
+//    printf("%f %f %f  %f\n",s[1].score,p[1].score,(p+1)->score,(*(p+1)).score);
+//    printf("%d %d %d %d \n",s[2].age,p[2].age,(p+2)->age,(*(p+2)).age);
+//    printf("%lu",sizeof(stu));
+//    for (int i = 0; i < 3; i ++) {
+//        printf("%s %d %c %f\n",(p+i)->name,(p+i)->age,(p+i)->gender,(p+i)->score);
+//    }
+// 结构体指针作为函数参数
+    
+    
+//    per p1 = {"alun",18,'m',180};
+//    per p2 = {"xiazi",20,'m',160};
+//    maxWeight(&p1, &p2);
+//    结构体数组(指针)  作为函数参数
+//    stu st[4] = {{"weikezi",18,'m',88},{"weiketuo",19,'m',90},{"kaxiaopeiya",25,'f',95},{"jiawen",28,'m',90}};
+    //shuChu(st, 4);
+//    输出所有人得信息
+    
+//
+//    
+//
+//   paixu(st, 4);
+//    change(st, 4);
+
+//    printf("%d\n", Max(3,5));
+//    
+//
+//    return 0;
+//    条件编译
+//    第一种
+//#ifdef N
+//    printf("条件成立我编译了\n");
+//#else 
+//    printf("条件没成立!\n");
+//#endif
+    
+//    第二种
+//#if 0
+//    printf("条件满足\n");
+//#else
+//    printf("不满足\n");
+//#endif
+//#define N 10
+//#ifndef N
+//    printf("不满足!");
+//#else 
+//    printf("满足了");
+//#endif
+}
